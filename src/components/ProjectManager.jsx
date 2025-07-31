@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './ProjectManager.css';
 
 // ProjectManager component to handle project creation, deletion, and selection
 function ProjectManager({ token, onProjectSelect, selectedProject }) {
