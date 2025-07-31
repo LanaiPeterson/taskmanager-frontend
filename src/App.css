@@ -377,3 +377,218 @@ form button:active {
     background-color: #ffffff;
   }
 }
+
+.project-manager {
+  background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.project-title {
+  margin: 0;
+  color: #2d3748;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.new-project-btn {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+}
+
+.new-project-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
+}
+
+.project-form {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.project-form input,
+.project-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.project-form input:focus,
+.project-form textarea:focus {
+  border-color: #48bb78;
+  box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.1);
+}
+
+.project-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.create-project-btn {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+}
+
+.create-project-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
+}
+
+.project-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+.filter-btn:hover {
+  border-color: #cbd5e0;
+  transform: translateY(-1px);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.project-management {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 16px;
+}
+
+.management-title {
+  font-size: 0.85rem;
+  margin: 0 0 12px 0;
+  color: #718096;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.project-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.project-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.project-name {
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.delete-project-btn {
+  background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+  color: white;
+  border: none;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.delete-project-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px rgba(245, 101, 101, 0.4);
+}
+
+.loading-text {
+  font-size: 0.8rem;
+  color: #a0aec0;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .project-manager {
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .project-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .project-filters {
+    justify-content: center;
+  }
+  
+  .filter-btn {
+    flex: 1;
+    min-width: 80px;
+    text-align: center;
+  }
+  
+  .project-list {
+    justify-content: center;
+  }
+}

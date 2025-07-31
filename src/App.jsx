@@ -7,6 +7,7 @@ import ProjectManager from "./components/ProjectManager";
 
 const API = "http://localhost:3000/api";
 
+//manages user authentication, task management, and project selection
 function App() {
   const[user, setUser] = useState(null);
   const [tasks, setTasks] = useState([]);
@@ -33,7 +34,8 @@ function App() {
       setLoading(false);
     }
   };
-
+// Fetch projects from the API
+  // This function retrieves the list of projects for the authenticated user.
   const fetchProjects = async () => {
     if (!token) return;
     try {
