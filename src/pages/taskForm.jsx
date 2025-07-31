@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
+// TaskForm component for adding or editing tasks
 function TaskForm({ initialData = { title: '', description: '' }, onSubmit }) {
   const [task, setTask] = useState(initialData);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
-
+// Validate form fields
   const validate = () => {
     const newErrors = {};
     if (!task.title.trim()) newErrors.title = 'Title is required';
@@ -12,12 +13,12 @@ function TaskForm({ initialData = { title: '', description: '' }, onSubmit }) {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
+// Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTask((prev) => ({ ...prev, [name]: value }));
   };
-
+// Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validate()) return;
@@ -25,7 +26,7 @@ function TaskForm({ initialData = { title: '', description: '' }, onSubmit }) {
     setSubmitted(true);
     setErrors({});
   };
-
+// Render the form
   return (
     <div className="form-container" style={{ maxWidth: 400, margin: '2rem auto' }}>
       <h2>{initialData.id ? 'Edit Task' : 'Add Task'}</h2>

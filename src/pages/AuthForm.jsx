@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const API = "http://localhost:3000/api/auth";
-
+// AuthForm component for user authentication (login/register)
+// It allows users to switch between login and registration modes
 export default function AuthForm({ setToken, setUser }) {
   const [mode, setMode] = useState("login");
   const [form, setForm] = useState({
@@ -11,11 +12,12 @@ export default function AuthForm({ setToken, setUser }) {
     password: "",
     confirmPassword: "",
   });
-
+  // Handle input changes
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
+// Handle authentication (login/register)
+  // It sends the form data to the backend API and handles the response
   const handleAuth = async (e) => {
     e.preventDefault();
     try {
@@ -28,10 +30,11 @@ export default function AuthForm({ setToken, setUser }) {
           email: form.email,
           password: form.password,
         });
+        console.log(res);
         setToken(res.data.token);
-        setUser({ name: res.data.name, email: res.data.email });
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", JSON.stringify({ name: res.data.name, email: res.data.email }));
+        setUser({ username: res.data.user.username, email: res.data.user.email });
+        // localStorage.setItem("token", res.data.token);
+        // localStorage.setItem("user", JSON.stringify({ username: res.data.user.username, email: res.data.user.email }));
       } else {
         await axios.post(`${API}/register`, form);
         alert("Registered! Please login.");
@@ -42,7 +45,8 @@ export default function AuthForm({ setToken, setUser }) {
       alert(err.response?.data?.message || "Auth error");
     }
   };
-
+// Render the authentication form
+  // It displays different fields based on the mode (login/register)
   return (
     <div style={{ maxWidth: 320, margin: "40px auto" }}>
       <h2>{mode === "login" ? "Login" : "Register"}</h2>

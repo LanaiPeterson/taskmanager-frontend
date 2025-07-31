@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api'; 
 
-
+// Register component for user registration
 export default function Register() {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +14,7 @@ export default function Register() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await api.post('/users/register', { userName, password });
+      await api.get('/users/register', { userName, password });
       navigate('/');
     } catch {
       alert('Register failed');
@@ -22,7 +22,7 @@ export default function Register() {
       setIsLoading(false);
     }
   };
-
+// Render the registration form
   return (
     <form onSubmit={handleRegister}>
       <input

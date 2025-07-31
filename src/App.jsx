@@ -1,131 +1,200 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AuthForm from "./AuthForm";
+import "./App.css";
+import AuthForm from "./pages/AuthForm";
+import TaskList from "./TaskList";
+import ProjectManager from "./components/ProjectManager";
 
 const API = "http://localhost:3000/api";
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem("token"));
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user") || "{}")
-  );
+  const[user, setUser] = useState(null);
   const [tasks, setTasks] = useState([]);
-  const [taskText, setTaskText] = useState("");
-  const [editId, setEditId] = useState(null);
-  const [editText, setEditText] = useState("");
+  const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [loading, setLoading] = useState(false);
+  const [newTask, setNewTask] = useState({ title: "", details: "", project: "" });
 
-  const handleLogout = () => {
-    setToken(null);
-    setUser({});
-    localStorage.clear();
-    setTasks([]);
+  const fetchTasks = async () => {
+    if (!token) return;
+    setLoading(true);
+    try {
+      const res = await fetch("/api/tasks", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setTasks(data);
+      }
+    } catch (e) {
+      // handle error
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Fetch tasks
-  useEffect(() => {
+  const fetchProjects = async () => {
     if (!token) return;
-    const fetchTasks = async () => {
-      try {
-        const res = await axios.get(`${API}/tasks`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setTasks(res.data);
-      } catch {
-        setTasks([]);
+    try {
+      const res = await fetch("/api/projects", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setProjects(data);
       }
-    };
+    } catch (e) {
+      // handle error
+    }
+  };
+
+  useEffect(() => {
     fetchTasks();
+    fetchProjects();
+    // eslint-disable-next-line
   }, [token]);
 
-  // Add task
-  const addTask = async (e) => {
+  const handleLogin = (jwt) => {
+    setToken(jwt);
+    localStorage.setItem("token", jwt);
+  };
+
+  const handleProjectSelect = (project) => {
+    setSelectedProject(project);
+    setNewTask(prev => ({ ...prev, project: project?._id || "" }));
+  };
+
+  // Filter tasks based on selected project
+  const filteredTasks = selectedProject 
+    ? tasks.filter(task => task.project?._id === selectedProject._id)
+    : tasks;
+// Handle adding a new task
+
+  const handleAddTask = async (e) => {
     e.preventDefault();
-    try {
-      await axios.post(`${API}/tasks`, { text: taskText }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setTaskText("");
-      // Reload tasks
-      const res = await axios.get(`${API}/tasks`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setTasks(res.data);
-    } catch {
-      alert("Error adding task");
+    console.log('handleAddTask called with:', { newTask, selectedProject });
+    
+    if (!newTask.title.trim()) {
+      console.log('Task title is empty, returning early');
+      return;
     }
-  };
-
-  // Delete task
-  const deleteTask = async (id) => {
-    try {
-      await axios.delete(`${API}/tasks/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setTasks(tasks.filter(t => t._id !== id));
-    } catch {
-      alert("Error deleting task");
+    
+    const taskData = {
+      title: newTask.title,
+      details: newTask.details
+    };
+    
+    // Only include project if one is selected
+    if (newTask.project) {
+      taskData.project = newTask.project;
     }
-  };
-
-  // Edit task
-  const startEdit = (id, text) => {
-    setEditId(id);
-    setEditText(text);
-  };
-
-  const saveEdit = async (id) => {
+    
+    console.log('Sending task data:', taskData);
+    
     try {
-      await axios.put(`${API}/tasks/${id}`, { text: editText }, {
-        headers: { Authorization: `Bearer ${token}` }
+      const res = await fetch("/api/tasks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(taskData),
       });
-      setEditId(null);
-      setEditText("");
-      // Reload tasks
-      const res = await axios.get(`${API}/tasks`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setTasks(res.data);
-    } catch {
-      alert("Error updating task");
+      
+      console.log('Task creation response:', res.status, res.statusText);
+      
+      if (!res.ok) {
+        const error = await res.json();
+        console.error('Failed to create task:', error);
+        alert(`Failed to create task: ${error.message || 'Unknown error'}`);
+        return;
+      }
+      
+      const createdTask = await res.json();
+      console.log('Task created successfully:', createdTask);
+      
+      setNewTask({ title: "", details: "", project: selectedProject?._id || "" });
+      fetchTasks();
+    } catch (error) {
+      console.error('Error creating task:', error);
+      alert('Error creating task. Please check your connection and try again.');
     }
   };
 
   if (!token) {
-    return <AuthForm setToken={setToken} setUser={setUser} />;
+    return (
+      <div>
+        <h1>Task Manager</h1>
+        <AuthForm setUser={setUser} setToken={setToken} />
+      </div>
+    );
   }
 
   return (
-    <div style={{ maxWidth: 400, margin: "40px auto" }}>
-      <h2>Welcome, {user.name}!</h2>
-      <button onClick={handleLogout} style={{ marginBottom: 20 }}>Logout</button>
-      <form onSubmit={addTask} style={{ marginBottom: 20 }}>
+    <div style={{ maxWidth: 500, margin: "0 auto" }}>
+      <h1>Task Manager</h1>
+      <button
+        style={{ float: "right" }}
+        onClick={() => {
+          setToken("");
+          localStorage.removeItem("token");
+        }}
+      >
+        Logout
+      </button>
+
+      <ProjectManager 
+        token={token} 
+        onProjectSelect={handleProjectSelect} 
+        selectedProject={selectedProject}
+      />
+
+      <form onSubmit={handleAddTask} style={{ marginBottom: 24 }}>
         <input
-          value={taskText}
-          onChange={e => setTaskText(e.target.value)}
-          placeholder="New Task"
-          style={{ width: "70%", marginRight: 8 }}
+          type="text"
+          placeholder="Task title"
+          value={newTask.title}
+          onChange={(e) =>
+            setNewTask((t) => ({ ...t, title: e.target.value }))
+          }
+          required
+          style={{ width: "60%", marginRight: 10 }}
         />
-        <button type="submit">Add</button>
+        <input
+          type="text"
+          placeholder="Task details"
+          value={newTask.details}
+          onChange={(e) =>
+            setNewTask((t) => ({ ...t, details: e.target.value }))
+          }
+          style={{ width: "30%", marginRight: 10 }}
+        />
+        <button type="submit">Add Task</button>
       </form>
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {tasks.map(task => (
-          <li key={task._id} style={{ marginBottom: 10 }}>
-            {editId === task._id ? (
-              <>
-                <input value={editText} onChange={e => setEditText(e.target.value)} style={{ marginRight: 8 }} />
-                <button onClick={() => saveEdit(task._id)}>Save</button>
-                <button onClick={() => setEditId(null)} style={{ marginLeft: 4 }}>Cancel</button>
-              </>
-            ) : (
-              <>
-                {task.text}
-                <button onClick={() => startEdit(task._id, task.text)} style={{ marginLeft: 8 }}>Edit</button>
-                <button onClick={() => deleteTask(task._id)} style={{ marginLeft: 4 }}>Delete</button>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
+
+      {selectedProject && (
+        <div style={{ 
+          padding: 12, 
+          backgroundColor: '#e3f2fd', 
+          borderRadius: 6, 
+          marginBottom: 16,
+          fontSize: 14
+        }}>
+          <strong>Adding to project:</strong> {selectedProject.name}
+          {selectedProject.description && (
+            <div style={{ color: '#666', marginTop: 4 }}>
+              {selectedProject.description}
+            </div>
+          )}
+        </div>
+      )}
+
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <TaskList tasks={filteredTasks} token={token} refreshTasks={fetchTasks} />
+      )}
     </div>
   );
 }
