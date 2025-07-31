@@ -1,12 +1,77 @@
-# React + Vite
+# Task Manager App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack Task Manager web application built with a modern frontend (React + Vite) and a RESTful Express.js backend. Users can register, log in, create and manage projects, and add tasks within those projects. The app features JWT authentication, protected routes, and an intuitive user interface.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **User Authentication:** Register and log in securely using JWT tokens.
+- **Project Management:** Create, update, and delete projects.
+- **Task Management:** Add, edit, complete, and remove tasks within projects.
+- **Authorization:** Only project owners (or authorized users) can manage their projects and tasks.
+- **Responsive UI:** Clean, modern design using React and CSS.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Tech Stack
+
+- **Frontend:** React, Vite, Fetch API, CSS
+- **Backend:** Node.js, Express.js, MongoDB (with Mongoose)
+- **Authentication:** JWT (JSON Web Tokens), bcrypt for password hashing
+
+---
+
+## Usage
+
+1. Register a new user account.
+2. Log in to access the dashboard.
+3. Create a new project.
+4. Add tasks to your project.
+5. Mark tasks as complete, edit, or delete them.
+6. Log out when done.
+
+---
+
+## API Endpoints
+
+- `POST /api/auth/register` — Register a new user
+- `POST /api/auth/login` — Login and get JWT token
+- `GET /api/projects` — List user’s projects
+- `POST /api/projects` — Create a project
+- `POST /api/tasks` — Create a task (must include `projectId`)
+- `GET /api/tasks?projectId=...` — List tasks for a project
+
+---
+
+## Project Structure
+
+```
+backend/
+  ├── models/
+  ├── routes/
+  ├── controllers/middleware
+  ├── server.js
+frontend/
+  ├── src/
+      ├── components/Pages
+      ├── App.jsx
+      ├── App.css
+  ├── vite.config.js
+```
+
+---
+
+
+## Acknowledgments
+
+- Inspired by modern productivity apps
+- Built with 💙 using the MERN stack
+- RTT-2025-23
+- Special thanks to the mentors and glassmates who have helped me with issues when completing this project.
+
+---
+
+## Challenges
+
+The biggest challenge was implenting everything that I have learned over the last 17 weeks and putting it all togther in a responsive project. I had to go back serveral times to previous modles and assignemnts to piece it all together. The backend was very challenging, making sure that it was responsive and operable. Implementing the frotend was easy once I figured out why it was not responding to the backend.

@@ -1,158 +1,379 @@
 body {
-  background: #f6f8fa;
-  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
 }
 
 #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding: 20px;
 }
 
 .app-container {
   background: #fff;
-  margin: 40px auto;
-  max-width: 480px;
-  border-radius: 10px;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.05), 0 1.5px 4px rgba(0,0,0,0.13);
-  padding: 32px 24px 40px 24px;
+  margin: 20px auto;
+  max-width: 600px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.06);
+  padding: 40px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
 h1 {
   margin-top: 0;
-  color: #224488;
-  font-size: 2.2rem;
-  letter-spacing: .01em;
+  color: #2d3748;
+  font-size: 2.5rem;
+  font-weight: 700;
   text-align: center;
+  letter-spacing: -0.02em;
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 form {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 24px;
-  align-items: center;
-  justify-content: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  align-items: stretch;
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
 }
 
-form input[type="text"], form input[type="email"], form input[type="password"] {
-  flex: 1 1 120px;
-  padding: 9px 12px;
-  border: 1px solid #d0d4d8;
-  border-radius: 6px;
+form input[type="text"], form input[type="email"], form input[type="password"], form textarea {
+  flex: 1 1 150px;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s ease;
+  background: white;
+  font-family: inherit;
 }
 
-form input:focus {
-  border-color: #4477dd;
+form input:focus, form textarea:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
 }
 
 form button {
-  background: #4477dd;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 9px 16px;
+  border-radius: 8px;
+  padding: 12px 24px;
   font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-left: 4px;
-}
-form button:hover {
-  background: #224488;
-}
-
-ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid #e8e8e8;
-}
-
-li:last-child {
-  border-bottom: none;
-}
-
-li b {
-  color: #224488;
   font-weight: 600;
-  margin-right: 6px;
-}
-
-li input[type="text"] {
-  width: 120px;
-}
-
-li button {
-  margin-left: 8px;
-  background: #f0f4fa;
-  color: #224488;
-  border: 1px solid #d0d4d8;
-  border-radius: 4px;
-  padding: 5px 12px;
-  font-size: 0.95rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  white-space: nowrap;
 }
 
-li button:hover {
-  background: #4477dd;
+form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+}
+
+form button:active {
+  transform: translateY(0);
+}
+
+.logout-btn {
+  background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
   color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(245, 101, 101, 0.3);
+  float: right;
+  margin-bottom: 20px;
 }
 
-li button[style*="color: red"] {
-  background: #ffeaea;
-  border-color: #ffbcbc;
-  color: #d43d3d !important;
+.logout-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 101, 101, 0.4);
 }
 
-li button[style*="color: red"]:hover {
-  background: #d43d3d !important;
-  color: #fff !important;
+.task-item {
+  background: white;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.task-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  border-color: #cbd5e0;
+}
+
+.task-content {
+  margin-bottom: 12px;
+}
+
+.task-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 4px;
+}
+
+.task-details {
+  color: #718096;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.project-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-top: 8px;
+  box-shadow: 0 2px 4px rgba(66, 153, 225, 0.3);
+}
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-edit {
+  background: #edf2f7;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-edit:hover {
+  background: #e2e8f0;
+  transform: translateY(-1px);
+}
+
+.btn-delete {
+  background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(245, 101, 101, 0.3);
+}
+
+.btn-delete:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(245, 101, 101, 0.4);
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(72, 187, 120, 0.3);
+}
+
+.btn-save:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(72, 187, 120, 0.4);
+}
+
+.btn-cancel {
+  background: #edf2f7;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-cancel:hover {
+  background: #e2e8f0;
+}
+
+.edit-form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.edit-form input {
+  flex: 1 1 120px;
+  padding: 8px 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.edit-form input:focus {
+  border-color: #667eea;
+}
+
+.empty-state {
+  text-align: center;
+  color: #a0aec0;
+  font-style: italic;
+  margin-top: 40px;
+  padding: 40px 20px;
+  background: #f7fafc;
+  border-radius: 12px;
+  border: 2px dashed #e2e8f0;
 }
 
 .auth-box {
-  background: #fafdff;
-  border: 1px solid #dde6ef;
-  border-radius: 8px;
-  max-width: 370px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  max-width: 400px;
   margin: 60px auto 0 auto;
-  padding: 30px 24px;
-  box-shadow: 0 2px 16px rgba(60,80,140,0.07);
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
   text-align: center;
 }
 
 .auth-box h2 {
-  color: #224488;
-  font-size: 1.4rem;
+  color: #2d3748;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .auth-box input[type="text"],
 .auth-box input[type="email"],
 .auth-box input[type="password"] {
-  width: 90%;
-  margin-bottom: 12px;
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  box-sizing: border-box;
 }
 
 .auth-box button {
-  width: 90%;
+  width: 100%;
   margin: 8px 0;
-  padding: 10px 0;
+  padding: 12px 0;
+  font-weight: 600;
+}
+
+.auth-switch-btn {
+  background: transparent;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 16px;
+}
+
+.auth-switch-btn:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-1px);
 }
 
 .error-message {
-  color: #d43d3d;
-  margin-bottom: 8px;
-  margin-top: -4px;
+  color: #e53e3e;
+  margin-bottom: 12px;
+  margin-top: -8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.loading-spinner {
+  color: #a0aec0;
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 40px 0;
+}
+
+/* Project context indicator */
+.project-context {
+  background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+  border: 1px solid #81e6d9;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+}
+
+.project-context strong {
+  color: #234e52;
+  font-weight: 600;
+}
+
+.project-context-description {
+  color: #4a5568;
+  margin-top: 6px;
+  font-size: 0.85rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .app-container {
+    margin: 10px;
+    padding: 20px;
+    border-radius: 16px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  form {
+    flex-direction: column;
+  }
+  
+  form input, form button {
+    width: 100%;
+  }
+  
+  .task-actions {
+    justify-content: flex-start;
+  }
+  
+  .edit-form {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
 }

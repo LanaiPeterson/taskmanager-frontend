@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import './ProjectManager.css';
 
+// ProjectManager component to handle project creation, deletion, and selection
 function ProjectManager({ token, onProjectSelect, selectedProject }) {
   const [projects, setProjects] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [newProject, setNewProject] = useState({ name: '', description: '' });
   const [loading, setLoading] = useState(false);
-
+// Fetch projects from the API
   const fetchProjects = async () => {
     if (!token) return;
     setLoading(true);
@@ -23,7 +25,7 @@ function ProjectManager({ token, onProjectSelect, selectedProject }) {
       setLoading(false);
     }
   };
-
+// Handle project selection
   useEffect(() => {
     fetchProjects();
   }, [token]);
@@ -38,7 +40,7 @@ function ProjectManager({ token, onProjectSelect, selectedProject }) {
     }
 
     console.log('Sending project data:', newProject);
-
+// Create a new project
     try {
       const res = await fetch('/api/projects', {
         method: 'POST',
@@ -50,7 +52,7 @@ function ProjectManager({ token, onProjectSelect, selectedProject }) {
       });
 
       console.log('Project creation response:', res.status, res.statusText);
-
+// Check if the response is ok
       if (!res.ok) {
         const error = await res.json();
         console.error('Failed to create project:', error);
@@ -69,7 +71,7 @@ function ProjectManager({ token, onProjectSelect, selectedProject }) {
       alert('Error creating project. Please check your connection and try again.');
     }
   };
-
+// Handle deleting a project
   const handleDeleteProject = async (projectId) => {
     if (!window.confirm('Delete this project? All associated tasks will be unassigned.')) return;
 
@@ -96,76 +98,52 @@ function ProjectManager({ token, onProjectSelect, selectedProject }) {
       alert('Error deleting project. Please check your connection and try again.');
     }
   };
-
+// Render the project manager
   return (
-    <div style={{ marginBottom: 24, padding: 16, backgroundColor: '#f8f9fa', borderRadius: 8 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <h3 style={{ margin: 0 }}>Projects</h3>
+    <div className="project-manager">
+      <div className="project-header">
+        <h3 className="project-title">Projects</h3>
         <button 
+          className="new-project-btn"
           onClick={() => setShowForm(!showForm)}
-          style={{ 
-            backgroundColor: '#007bff', 
-            color: 'white', 
-            border: 'none', 
-            padding: '6px 12px', 
-            borderRadius: 4,
-            cursor: 'pointer' 
-          }}
         >
           {showForm ? 'Cancel' : 'New Project'}
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleCreateProject} style={{ marginBottom: 16 }}>
-          <div style={{ marginBottom: 8 }}>
+        <div className="project-form">
+          <form onSubmit={handleCreateProject}>
             <input
               type="text"
               placeholder="Project name"
               value={newProject.name}
               onChange={(e) => setNewProject(prev => ({ ...prev, name: e.target.value }))}
               required
-              style={{ width: '100%', padding: '8px 12px', marginBottom: 8, borderRadius: 4, border: '1px solid #ddd' }}
             />
             <textarea
               placeholder="Project description"
               value={newProject.description}
               onChange={(e) => setNewProject(prev => ({ ...prev, description: e.target.value }))}
-              style={{ width: '100%', padding: '8px 12px', borderRadius: 4, border: '1px solid #ddd', minHeight: 60 }}
             />
-          </div>
-          <button type="submit" style={{ backgroundColor: '#28a745', color: 'white', border: 'none', padding: '6px 12px', borderRadius: 4 }}>
-            Create Project
-          </button>
-        </form>
+            <button type="submit" className="create-project-btn">
+              Create Project
+            </button>
+          </form>
+        </div>
       )}
-
-      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+      <div className="project-filters">
         <button
+          className={`filter-btn ${!selectedProject ? 'active' : ''}`}
           onClick={() => onProjectSelect(null)}
-          style={{
-            padding: '6px 12px',
-            borderRadius: 4,
-            border: '1px solid #ddd',
-            backgroundColor: !selectedProject ? '#007bff' : 'white',
-            color: !selectedProject ? 'white' : '#007bff',
-            cursor: 'pointer'
-          }}
         >
           All Tasks
         </button>
         {projects.map(project => (
           <button
             key={project._id}
+            className={`filter-btn ${selectedProject?._id === project._id ? 'active' : ''}`}
             onClick={() => onProjectSelect(project)}
-            style={{
-              padding: '6px 12px',
-              borderRadius: 4,
-              border: '1px solid #ddd',
-              backgroundColor: selectedProject?._id === project._id ? '#007bff' : 'white',
-              color: selectedProject?._id === project._id ? 'white' : '#007bff',
-              cursor: 'pointer'
-            }}
           >
             {project.name}
           </button>
@@ -173,23 +151,16 @@ function ProjectManager({ token, onProjectSelect, selectedProject }) {
       </div>
 
       {projects.length > 0 && (
-        <div>
-          <h4 style={{ fontSize: 14, margin: '8px 0 4px 0', color: '#666' }}>Manage Projects:</h4>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        <div className="project-management">
+          <h4 className="management-title">Manage Projects</h4>
+          <div className="project-list">
             {projects.map(project => (
-              <div key={project._id} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <span style={{ fontSize: 12, color: '#666' }}>{project.name}</span>
+              <div key={project._id} className="project-item">
+                <span className="project-name">{project.name}</span>
                 <button
+                  className="delete-project-btn"
                   onClick={() => handleDeleteProject(project._id)}
-                  style={{
-                    backgroundColor: '#dc3545',
-                    color: 'white',
-                    border: 'none',
-                    padding: '2px 6px',
-                    borderRadius: 3,
-                    fontSize: 10,
-                    cursor: 'pointer'
-                  }}
+                  title="Delete project"
                 >
                   ✕
                 </button>
@@ -199,7 +170,7 @@ function ProjectManager({ token, onProjectSelect, selectedProject }) {
         </div>
       )}
 
-      {loading && <p style={{ fontSize: 12, color: '#666' }}>Loading projects...</p>}
+      {loading && <div className="loading-text">Loading projects...</div>}
     </div>
   );
 }

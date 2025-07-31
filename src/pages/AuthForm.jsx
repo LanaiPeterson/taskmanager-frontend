@@ -48,7 +48,7 @@ export default function AuthForm({ setToken, setUser }) {
 // Render the authentication form
   // It displays different fields based on the mode (login/register)
   return (
-    <div style={{ maxWidth: 320, margin: "40px auto" }}>
+    <div className="auth-box">
       <h2>{mode === "login" ? "Login" : "Register"}</h2>
       <form onSubmit={handleAuth}>
         {mode === "register" && (
@@ -57,7 +57,6 @@ export default function AuthForm({ setToken, setUser }) {
             placeholder="Name"
             value={form.name}
             onChange={handleChange}
-            style={{ width: "100%", marginBottom: 8 }}
             autoComplete="name"
           />
         )}
@@ -67,7 +66,6 @@ export default function AuthForm({ setToken, setUser }) {
           type="email"
           value={form.email}
           onChange={handleChange}
-          style={{ width: "100%", marginBottom: 8 }}
           autoComplete="email"
         />
         <input
@@ -76,7 +74,6 @@ export default function AuthForm({ setToken, setUser }) {
           type="password"
           value={form.password}
           onChange={handleChange}
-          style={{ width: "100%", marginBottom: 8 }}
           autoComplete={mode === "login" ? "current-password" : "new-password"}
         />
         {mode === "register" && (
@@ -86,15 +83,14 @@ export default function AuthForm({ setToken, setUser }) {
             type="password"
             value={form.confirmPassword}
             onChange={handleChange}
-            style={{ width: "100%", marginBottom: 8 }}
             autoComplete="new-password"
           />
         )}
         <button type="submit">{mode === "login" ? "Login" : "Register"}</button>
       </form>
       <button
+        className="auth-switch-btn"
         onClick={() => setMode(mode === "login" ? "register" : "login")}
-        style={{ marginTop: 8 }}
       >
         {mode === "login"
           ? "Need an account? Register"

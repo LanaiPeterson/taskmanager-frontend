@@ -132,10 +132,10 @@ function App() {
   }
 
   return (
-    <div style={{ maxWidth: 500, margin: "0 auto" }}>
+    <div className="app-container">
       <h1>Task Manager</h1>
       <button
-        style={{ float: "right" }}
+        className="logout-btn"
         onClick={() => {
           setToken("");
           localStorage.removeItem("token");
@@ -150,7 +150,7 @@ function App() {
         selectedProject={selectedProject}
       />
 
-      <form onSubmit={handleAddTask} style={{ marginBottom: 24 }}>
+      <form onSubmit={handleAddTask}>
         <input
           type="text"
           placeholder="Task title"
@@ -159,7 +159,6 @@ function App() {
             setNewTask((t) => ({ ...t, title: e.target.value }))
           }
           required
-          style={{ width: "60%", marginRight: 10 }}
         />
         <input
           type="text"
@@ -168,22 +167,15 @@ function App() {
           onChange={(e) =>
             setNewTask((t) => ({ ...t, details: e.target.value }))
           }
-          style={{ width: "30%", marginRight: 10 }}
         />
         <button type="submit">Add Task</button>
       </form>
 
       {selectedProject && (
-        <div style={{ 
-          padding: 12, 
-          backgroundColor: '#e3f2fd', 
-          borderRadius: 6, 
-          marginBottom: 16,
-          fontSize: 14
-        }}>
+        <div className="project-context">
           <strong>Adding to project:</strong> {selectedProject.name}
           {selectedProject.description && (
-            <div style={{ color: '#666', marginTop: 4 }}>
+            <div className="project-context-description">
               {selectedProject.description}
             </div>
           )}
@@ -191,7 +183,7 @@ function App() {
       )}
 
       {loading ? (
-        <p>Loading...</p>
+        <div className="loading-spinner">Loading...</div>
       ) : (
         <TaskList tasks={filteredTasks} token={token} refreshTasks={fetchTasks} />
       )}

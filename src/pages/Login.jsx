@@ -8,7 +8,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  
+  // Handle user login
   const handleLogin = async e => {
     e.preventDefault();
     setIsLoading(true);
@@ -21,7 +21,8 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-
+// Render the login form
+  // It includes fields for username and password, and a submit button
   return (
     <form onSubmit={handleLogin}>
       <input
