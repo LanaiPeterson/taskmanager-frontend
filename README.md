@@ -2,8 +2,6 @@
 
 A full-stack Task Manager web application built with a modern frontend (React + Vite) and a RESTful Express.js backend. Users can register, log in, create and manage projects, and add tasks within those projects. The app features JWT authentication, protected routes, and an intuitive user interface.
 
----
-
 ## Features
 
 - **User Authentication:** Register and log in securely using JWT tokens.
@@ -12,15 +10,11 @@ A full-stack Task Manager web application built with a modern frontend (React + 
 - **Authorization:** Only project owners (or authorized users) can manage their projects and tasks.
 - **Responsive UI:** Clean, modern design using React and CSS.
 
----
-
 ## Tech Stack
 
 - **Frontend:** React, Vite, Fetch API, CSS
 - **Backend:** Node.js, Express.js, MongoDB (with Mongoose)
 - **Authentication:** JWT (JSON Web Tokens), bcrypt for password hashing
-
----
 
 ## Usage
 
@@ -31,8 +25,6 @@ A full-stack Task Manager web application built with a modern frontend (React + 
 5. Mark tasks as complete, edit, or delete them.
 6. Log out when done.
 
----
-
 ## API Endpoints
 
 - `POST /api/auth/register` — Register a new user
@@ -42,35 +34,12 @@ A full-stack Task Manager web application built with a modern frontend (React + 
 - `POST /api/tasks` — Create a task (must include `projectId`)
 - `GET /api/tasks?projectId=...` — List tasks for a project
 
----
-
-## Project Structure
-
-```
-backend/
-  ├── models/
-  ├── routes/
-  ├── controllers/middleware
-  ├── server.js
-frontend/
-  ├── src/
-      ├── components/Pages
-      ├── App.jsx
-      ├── App.css
-  ├── vite.config.js
-```
-
----
-
-
 ## Acknowledgments
 
 - Inspired by modern productivity apps
 - Built with 💙 using the MERN stack
 - RTT-2025-23
 - Special thanks to the mentors and glassmates who have helped me with issues when completing this project.
-
----
 
 ## Challenges
 
